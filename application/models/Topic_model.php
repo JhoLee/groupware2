@@ -15,6 +15,10 @@ class Topic_model extends CI_Model
 
     function get($topic_id)
     {
+        $this->db->select('id');
+        $this->db->select('title');
+        $this->db->select('description');
+        $this->db->select('UNIX_TIMESTAMP(created) As created');
         return $this->db->get_where('topic', array('id' => $topic_id))->row();
     }
 }
