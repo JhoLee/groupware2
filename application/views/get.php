@@ -1,6 +1,6 @@
 <article>
-    <h1><?php htmlspecialchars($topic->title) ?></h1>
+    <h1><?= $topic->title ?></h1>
     <div>
-        <?php $topic->description ?>
+        <?= $topic->description ?>
     </div>
 </article>

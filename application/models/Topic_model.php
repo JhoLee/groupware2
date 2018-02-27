@@ -10,7 +10,6 @@ class Topic_model extends CI_Model
 
     public function gets()
     {
-        echo 'test';
         return $this->db->query("SELECT * FROM topic")->result();
     }
 
