@@ -1,0 +1,29 @@
+/* 
+    @file: /css/pageInfo.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/24
+    @content: css for 'PageInfo'
+    
+*/
+
+#PageInfo {
+ 
+
+    width: 640px;
+    height: 30px;
+    padding: 15px;
+
+    border: solid 1px gray;
+
+    word-wrap: break-word;
+
+    font-size: 11px;
+
+    text-align: center;
+
+    background-color: #CCCCCC;
+}
+
+#PageInfo a {
+    background-color: #CCC;
+}

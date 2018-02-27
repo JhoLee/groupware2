@@ -1,0 +1,122 @@
+/* 
+    @file: /css/TopMenu.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/21
+    @content: css for 'TopMenu'
+    ps) Version2
+*/
+
+#TopMenu {
+    position: absolute;
+    top: 100px;
+    left: 15px;
+
+    border: none;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#TopMenu ul {
+    background: rgb(109, 109, 109);
+    height: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+#TopMenu li {
+    float: left;
+    padding: 0px;
+}
+
+#TopMenu li a {
+    background: rgb(109, 109, 109);
+    color: #CCCCCC;
+    display: block;
+    font-weight: normal;
+    line-height: 30px;
+    margin: 0px;
+    padding: 0px 15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#TopMenu li a:hover, #TopMenu ul li:hover a {
+    background: rgb(71,71,71);
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#TopMenu li ul {
+    background: rgb(109, 109, 109);
+    display: none;
+    height: 30px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    position: absolute;
+    width: 80px;
+    z-index: 200;
+
+
+   /*
+    top: 208px;
+    left: 15px;
+    */
+}
+
+#TopMenu li:hover ul {
+    display: block;
+}
+
+#TopMenu li li {
+    background: rgb(109, 109, 109);
+    display: block;
+    float: none;
+    margin: 0px;
+    padding: 0px;
+    width: 80px;
+    height: 30px;
+
+}
+
+#TopMenu li:hover li a {
+    background: none;
+}
+
+#TopMenu li ul a {
+    display: block;
+    height: 30px;
+    font-size: 12px;
+    font-style: normal;
+    margin: 0px;
+    padding: 0px 1px 0px 15px;
+    text-align: left;
+}
+
+#TopMenu li ul a:hover, #TopMenu li ul li:hover a {
+    background: rgb(71, 71, 71);
+    border: 0px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#TopMenu p {
+    clear: left;
+}
+
+#navBackground {
+    position: absolute;
+    background-color: rgb(109, 109, 109);
+    height: 30px;
+    width: 860px;
+    top: 100px;
+    left: 15px;
+
+    z-index: -1;
+}

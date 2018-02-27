@@ -1,0 +1,78 @@
+/* 
+    @file: /css/contents.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/?
+    @content: css for 'Contents'
+    
+*/
+
+body {
+    width: 880px;
+}
+
+#Main {
+    position: absolute;
+    left: 205px;
+    top: 150px;
+
+    border: 1px solid gray;
+    padding: 15px;
+    width: 640px;
+    word-wrap: break-word;
+}
+
+.ArticleTitle {
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+.ArticleContent {
+    font-size: 13px;
+    
+}
+
+aside {
+    
+    font-size: 16px;
+    background-color: #BBBBBB;
+    float: left;
+    width: 20%;
+    height: 90%;
+}
+
+aside ul {
+    list-style: none;
+}
+
+section {
+    background-color: #E0E0E0;
+    float: right;
+    width: 75%;
+    height: 90%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+article {
+    background-color: #FFFFFF;
+    width: 95%;
+    height: 55px;
+    line-height: 55px;
+    border: 1px solid #777777;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+p {
+    line-height: 15px;
+}
+
+h3 {
+    line-height: 10px;
+}
+
+a {
+    text-decoration: none;
+}

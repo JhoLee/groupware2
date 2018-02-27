@@ -1,0 +1,14 @@
+/* 
+    @file: /html/indexx.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/20
+    @content: css-group file for 'index.html'
+*/
+
+@charset "UTF-8";
+@import "../css/titleBox.css";
+@import "../css/LeftMenuBox.css";
+@import "../css/TopMenu2.css";
+@import "../css/Article.css";
+@import "../css/pageInfo.css";
+@import "../css/Contetㅇns.css";

@@ -1,0 +1,24 @@
+/* 
+    @file: /css/LeftMenuBox.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/20
+    @content: css for 'LeftMenuBox'
+*/
+
+#LeftMenuBox {
+    
+    position: absolute;
+    top: 150px;
+    left: 15px;
+    border: 1px solid gray;
+    width: 140px;
+
+    padding: 15px;    
+}
+
+.SideMenu a {
+    font: black;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}

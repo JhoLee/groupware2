@@ -1,0 +1,28 @@
+/* 
+    @file: /css/titleBox.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/20
+    @content: css for 'titleBox'
+*/
+
+#TitleBox {
+    position: absolute;
+    
+    left: 15px;
+    top: 15px;  
+    
+    border: 0;
+    width: 800px;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#TitleBox header {
+   
+
+    font-size: 30px;
+    font-weight: bold;
+}
+

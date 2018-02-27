@@ -1,0 +1,70 @@
+/* 
+    @file: /css/TopMenu.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/20
+    @content: css for 'TopMenu'
+*/
+
+
+
+nav, ul, li { margin:0; padding:0; }
+
+
+#TopMenu {
+    position: absolute;
+    top: 150px;
+    left: 15px;
+    
+    float:right;
+	margin:0px 5px 3px 5px;
+	padding:0 0 3px 0;
+
+	-moz-border-radius: 7px;
+	-khtml-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+  
+}
+
+#TopMenu, ul ul {
+    /* for Design */
+    background-color: #5c5c5c;
+    box-shadow: 0px 0px 15px rgba(0,0,0,.3);
+	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,.3);
+	-webkit-box-shadow: 0px 0px 15px rgba(0,0,0,.3);
+	-o-box-shadow: 0px 0px 15px rgba(0,0,0,.3);
+}
+
+#TopMenu ul li {
+	float:left;
+	list-style-type:none;
+}
+
+#TopMenu a {
+	height:16px;
+	color:#f1f1f1;
+	font-family:arial;
+	font-size:17px;
+	padding:0 15px 0 15px;
+	text-decoration:none;
+}
+
+#TopMenu a:hover {
+	color:#D4F4FA;
+	border-bottom:3px solid #FAED7D;
+}
+
+#TopMenu ul ul {
+    margin-top: 0px;
+	display:none;
+	position:absolute;
+	background-color:#5c5c5c;
+}
+
+#TopMenu ul li:hover ul {
+	display: block;
+}
+
+#TopMenu ul ul li {
+	float:none;
+}

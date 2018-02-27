@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+	
+	<title>title</title>
+</head>
+
+<body>
+
+	<div data-role="page" id="main_page">
+		<div data-role="header" data-theme="b">
+			<h1>Main Page</h1>
+		</div>
+		<div data-role="content">
+			<h2>This is a main page.</h2>
+			<p><a href="#sub_page">Sub Page</a></p>
+		</div>
+		<div data-role="footer">
+			<h2>Footer입니다.</h2>
+		</div>
+	</div>
+	
+	<div data-role="page" id="sub_page">
+		<div data-role="header"  data-theme="b">
+			<h1>Sub Page</h1>
+		</div>
+		<div data-role="content">
+			<h2>This is a sub page.</h2>
+			<p><a href="#main_page" data-direction="reverse">Main Page</a></p>
+		</div>
+		<div data-role="footer">
+			<h2>Footer입니다.</h2>
+		</div>
+	</div>
+</body>
+</html>

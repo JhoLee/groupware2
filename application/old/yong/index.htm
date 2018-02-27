@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">	
+	<meta name="viewport" content="width=device-width">	<title>무제 문서</title>
+	<link href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" rel="stylesheet" type="text/css">
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+	
+
+	<!-- my own script -->
+
+	<script type="text/javascript">
+
+		function openRandomImages(start, end) {
+
+			
+
+			
+
+			if(winRef == null) {
+			
+
+				if(winRef.closed == false) {
+					winRef.focus();
+				} else {
+					winRef = windwos.open(imageLink, "", fullscreen);
+				}
+
+			} else {
+				openRandomImages(start, end);
+			}
+			
+			return;
+
+		}
+
+
+
+
+		function checkCode(code) {
+			if(code == "defaultCode") {
+				var count = Math.floor(Math.random()*69 + 1);
+				alert("누가 그냥 입력하래");
+				alert(count + "번만 당해랏");
+				while(--count > 0){
+					confirm(count+"번 남음..");
+					if(count <=2) {
+						count = 999;
+					}
+				}
+			} else if (code == "yongjjang") {
+				openRandomImages(1, 9);
+			}
+
+			return;
+		}
+
+		function enter(form) {
+			var code = form.codeInput.value;
+			checkCode(code);
+
+			return;
+		}
+
+
+		function showTime() {
+
+			var hours, minutes;
+
+			var now = new Date(); 
+			if(now.getHours < 10) {
+				hours = "0"+now.getHours();
+			} else {
+				hours = now.getHours();
+			}
+			if (now.getMinutes() < 10) {
+				minutes = "0" + now.getMinutes();
+
+			} else {
+				minutes = now.getMinutes();
+			}
+
+			var time = hours + ":" + minutes;
+			document.write(time);
+			return;
+		}
+
+
+
+	</script>
+
+</head>
+
+<body>
+	<!-- main page -->
+	<div data-role="page" id="main">
+		<!-- header of main -->
+		<div data-role="header" data-theme="a">
+			<h1>용시훈 찬양!!</h1>
+		</div>
+		
+		<!-- End of header -->
+		
+		<!-- content of main -->
+		<div data-role="content">
+			<!-- login form -->
+			<form name="loginForm">
+				<div data-role="fieldcontain">
+					<label for="codeInput">추천인 코드 입력:</label>
+					<input type="password" name="codeInput" id="codeInput" value="defaultCode"  />
+					<input type="button" name="login" id="login" value="입력" onClick="enter(this.form);"/>
+					
+					
+					
+				</div>
+				
+			</form>
+			<!-- End of login form -->
+		</div>
+		<!-- End of content -->
+		
+		<!-- footer of main -->
+		<div data-role="footer" data-theme="d">
+			<h4> <script type="text/javascript">showTime();</script>에 접속함</h4>
+		</div>
+		<!-- end of footer -->
+		
+	</div>
+	<!-- end of main page -->
+
+</body>
+</html>

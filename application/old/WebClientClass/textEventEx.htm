@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+        
+            function sum(form) {
+                number1 = Number(form.num1.value);
+                number2 = Number(form.num2.value);
+                number3 = number1 + number2;
+                form.num3.value = Number(number3);
+                form.result.add(number1 + number2 + number3);
+
+
+            }
+
+            function nullCheck(form) {
+                if( !form.num1.value ) {
+                    form.num3.value = null;
+                } else if( !form.num2.value ) {
+                    form.num3.value = null;
+                } else {
+                    sum(form);
+                }
+
+            }
+
+            function focusChange(form) {
+                num1.focus();
+                return;
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+        <form name="myform">
+            <input type=text name="num1" size=3 onChange="javascript:nullCheck(form)" /> +
+            <input type=text name="num2" size=3 onChange="javascript:nullCheck(form)" /> =
+            <input type=text name="num3" size=5 onFocus="javascript:document.myform.num1.select()" /></br></br>
+            <textarea name="result" rows="44" cols="20" onFocus="javascript:document.myform.num1.select()" > </textarea>
+            
+        </form>
+
+
+    </body>
+</html>

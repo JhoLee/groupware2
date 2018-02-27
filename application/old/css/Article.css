@@ -1,0 +1,32 @@
+/* 
+    @file: /css/Article.css
+    @author: jho3689@a.ut.ac.kr
+    @date: 17/06/21
+    @content: css for 'Article'
+    
+*/
+
+#Contents {
+    position: absolute;
+    left: 205px;
+    top: 150px;
+  
+}
+
+.Content {
+    border: 1px solid gray;
+    padding: 15px;
+    width: 640px;
+    word-wrap: break-word;
+}
+
+.ArticleTitle {
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+.ArticleContent {
+    font-size: 13px;
+    
+}

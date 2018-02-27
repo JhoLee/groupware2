@@ -1,0 +1,1 @@
+UPDATE deposit_history SET d_writer='이주호', d_editor='이주호';
