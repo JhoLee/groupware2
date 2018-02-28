@@ -6,4 +6,7 @@
             <?= auto_link($topic->description) ?>
         </div>
     </article>
+    <div>
+        <a href="/index.php/topic/add" class="btn">Add</a>
+    </div>
 </div>

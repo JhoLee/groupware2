@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Bootstrap-->
-    <link href="/application/libraries/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/application/res/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style>
         body {
             padding-top: 70px;
         }
     </style>
-    <link href="/application/libraries/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/application/res/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <title>Jho</title>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
-        <div class="container-fluid">
+        <div >
 
             <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -35,5 +36,5 @@
         </div>
     </div>
 </div>
-<div class="container-fluid">
+<div class="container">
     <div class="row-fluid">
