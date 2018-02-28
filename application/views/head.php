@@ -16,7 +16,7 @@
 <body>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
-        <div >
+        <div>
 
             <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -34,7 +34,12 @@
             </div>
 
         </div>
-    </div>
-</div>
+    </div><!--/div.navbar-inner-->
+</div><!--/div.navbar-->
+<?php if ($this->config->item('is_dev') == true) { ?>
+    <div class="well">
+        개발환경 수정중...
+    </div><!--/div.well-->
+<?php } ?>
 <div class="container">
     <div class="row-fluid">

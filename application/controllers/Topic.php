@@ -1,8 +1,14 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Class Topic
+ */
 class Topic extends CI_Controller
 {
+    /**
+     * Topic constructor.
+     */
     function __construct()
     {
         parent::__construct();
@@ -11,13 +17,22 @@ class Topic extends CI_Controller
 
     }
 
+    /**
+     *
+     */
     function _head()
     {
+        var_dump($this->session->userdata('session_test'));
+        $this->session->set_userdata('session_test', 'Jho');
+        $this->load->config('jho');
         $topics = $this->Topic_model->gets();
         $this->load->view('head');
         $this->load->view('topic_list', array('topics' => $topics));
     }
 
+    /**
+     *
+     */
     function index()
     {
         $this->_head();
@@ -28,6 +43,9 @@ class Topic extends CI_Controller
         $this->load->view('footer');
     }
 
+    /**
+     * @param $id
+     */
     function get($id)
     {
         $this->_head();
@@ -39,6 +57,9 @@ class Topic extends CI_Controller
         $this->load->view('footer');
     }
 
+    /**
+     *
+     */
     function add()
     {
         $this->_head();
@@ -49,9 +70,12 @@ class Topic extends CI_Controller
 
 
         if ($this->form_validation->run() == FALSE) {
+            $this->load->helper('url');
             $this->load->view('add');
         } else {
-            $topic_id = $this->Topic_model->add($this->input->post('title'), $this->input->post('description'));
+            $title = $this->input->post('title');
+            $description = $this->input->post('description');
+            $topic_id = $this->Topic_model->add($title, $description);
             $this->load->helper('url');
             redirect('/topic/get/' . $topic_id);
         }
