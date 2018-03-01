@@ -45,7 +45,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 
                         $change_pw = password_hash($_POST['change_pw1'], PASSWORD_DEFAULT, ["cost" => 12]);
 
-                        $sql = "UPDATE member SET m_pw = '$change_pw' WHERE m_name = '$member_name' AND t_team = '$member_team'";
+                        $sql = "UPDATE member SET m_password = '$change_pw' WHERE m_name = '$member_name' AND t_team = '$member_team'";
 
                         $db_conn->query($sql);
 

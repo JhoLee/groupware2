@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Class Topic
  */
-class Topic extends CI_Controller
+class Topic extends MY_Controller
 {
     /**
      * Topic constructor.
@@ -12,7 +12,7 @@ class Topic extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->database();
+        $this->session->set_userdata('category', 'topic');
         $this->load->model('Topic_model');
 
     }
@@ -22,12 +22,7 @@ class Topic extends CI_Controller
      */
     function _head()
     {
-        var_dump($this->session->userdata('session_test'));
-        $this->session->set_userdata('session_test', 'Jho');
-        $this->load->config('jho');
-        $topics = $this->Topic_model->gets();
-        $this->load->view('head');
-        $this->load->view('topic_list', array('topics' => $topics));
+        parent::_head();
     }
 
     /**
@@ -36,11 +31,9 @@ class Topic extends CI_Controller
     function index()
     {
         $this->_head();
-
-
+        $this->_sidebar();
         $this->load->view('main');
-
-        $this->load->view('footer');
+        $this->_footer();
     }
 
     /**
@@ -62,6 +55,13 @@ class Topic extends CI_Controller
      */
     function add()
     {
+        // TODO 로그인 요구.
+
+        // todo 로그인 되어 있지 않다면, 로그인 페이지로 리다이렉션
+        if (true) {
+            $this->load->helper('url');
+            redirect('/auth/login');
+        }
         $this->_head();
 
         $this->load->library('form_validation');
