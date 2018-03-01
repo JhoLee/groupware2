@@ -33,18 +33,26 @@ class User_model extends CI_MODEL
     function getBy($column, $data)
     {
         /* Select * From ... Where '$column' = $data */
-        if ($column == 'id')
-            $col = 'm_id';
-        else if ($column == 'name')
-            $col = 'm_name';
-        else if ($column == 'team')
-            $col = 't_team';
-        else if ($column == 'mobile')
-            $col = 'm_mobile';
-        else if ($column == 'email')
-            $col = 'm_mail';
-        else
-            $col = '';
+        switch ($column) {
+            case 'id':
+                $col = 'm_id';
+                break;
+            case  'name':
+                $col = 'm_name';
+                break;
+            case 'team':
+                $col = 't_team';
+                break;
+            case  'mobile':
+                $col = 'm_mobile';
+                break;
+            case 'email':
+                $col = 'm_mail';
+                break;
+            default:
+                $col = '';
+                break;
+        }
         $sql = "SELECT m_id AS 'id', m_name AS 'name', t_team AS 'team', m_mobile AS 'mobile', m_mail AS 'e-mail', m_birthday AS 'birthday' FROM member WHERE $col = '$data'";
         return $this->db->query($sql)->row();
     }

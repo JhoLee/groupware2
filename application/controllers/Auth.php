@@ -13,6 +13,11 @@ class Auth extends MY_Controller
 
     }
 
+    function index()
+    {
+        $this->login();
+    }
+
 
     function login()
     {
