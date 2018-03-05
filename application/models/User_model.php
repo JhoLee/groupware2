@@ -63,6 +63,12 @@ class User_model extends CI_MODEL
         return $this->db->query($sql)->row()->password;
     }
 
+    function getOldPassword($id)
+    {
+        $sql = "SELECT old_pw AS 'old_password' FROM member WHERE m_id = '$id'";
+        return $this->db->query($sql)->row()->old_password;
+    }
+
     // TODO: 수정, 삭제, 추가, 등등의 기능.... 수정은, 검색해서 가져온 다음에(*를 SElect 하는 함수 사용) 그걸 바탕으로 파라메터를 넣어서, 그 중 수정할 것들을 수정하는 방식으로 함수 작성.
 
 

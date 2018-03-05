@@ -21,13 +21,14 @@ class Auth extends MY_Controller
 
     function login()
     {
+        if (empty($returnURL))
+            $returnURL = '/';
         if ($this->session->userdata('is_login') == true) {
             $this->session->set_userdata('message', 'Already Signed In.');
-            if (empty($returnURL))
-                $returnURL = '/';
 
             redirect($returnURL);
         }
+
         $returnURL = $this->input->get('returnURL');
         $this->load->view('login', array('returnURL' => $returnURL));
         $this->_footer();
@@ -36,7 +37,6 @@ class Auth extends MY_Controller
     function logout()
     {
         $this->session->sess_destroy();
-        $this->load->helper('url');
         redirect('/');
     }
 
@@ -53,28 +53,62 @@ class Auth extends MY_Controller
         // 로그인 인증
         $user = $this->User_model->getBy('id', $this->input->post('id'));
         $user->password = $this->User_model->getPassword($user->id);
-        /* copied */
+        $user->old_password = $this->User_model->getOldPassword($user->id);
         if (!function_exists('password_hash')) {
             $this->load->helper('password');
         }
-        if (
-            $this->input->post('id') == $user->id &&
-            password_verify($this->input->post('password'), $user->password)
-        ) {
-            $this->session->set_userdata('is_login', true);
-            $this->load->helper('url');
-            $returnURL = $this->input->get('returnURL');
-            if ($returnURL === false) {
-                $returnURL = '/';
-            }
-            redirect($returnURL);
-        } else {
-            $this->session->set_flashdata('message', '로그인에 실패 했습니다.' . $user->id);
-            $this->load->helper('url');
-            redirect('/auth/login');
-        }
-        /* End of copied */
+        if ($this->input->post('id') == $user->id) {
+            if (password_verify($this->input->post('password'), $user->password)) {
+                /* If the pw is correct with new ver. */
+                $this->session->set_userdata('is_login', true);
+                $returnURL = $this->input->get('returnURL');
+                if ($returnURL === false) {
+                    $returnURL = '/';
+                }
+                redirect($returnURL);
+            } else if (password_verify($this->input->post('password'), $user->old_password)) {
+                /* If the pw is correct with old ver. */
+                $this->session->set_userdata('old_pw', true);
+                $returnURL = $this->input->get('returnURL');
+                if ($returnURL === false) {
+                    $returnURL = '/';
+                }
+                $this->session->set_flashdata('message', '비밀번호를 변경해야 합니다.');
+                $s_user = serialize($user);
+                $this->session->set_userdata('s_user', $s_user);
+                $this->session->set_userdata('returnURL', $returnURL);
+                redirect('/auth/renewPW');
 
+
+            } else {
+                /* */
+                $this->session->set_flashdata('message', '로그인에 실패 했습니다.');
+                redirect('/auth/login');
+            }
+        }
+    }
+
+    function renewPW()
+    {
+        $this->load->library('calendar');
+        if (empty($this->input->post('password'))) {
+            $user = unserialize($this->session->userdata('s_user'));
+            $returnURL = unserialize($this->session->userdata('returnURL'));
+            $this->load->view('renewPW', array('user' => $user, 'returnURL' => $returnURL));
+        } else {
+            // TODO: Varify two passwords, and then set or not.
+            if (false) {
+                // TODO: If Two passwords are same and follows the rule
+                // reset password
+
+                $this->session->sess_destroy();
+                redirect('/auth/login');
+            } else {
+                // TODO
+                // clear post data and refresh teh page
+                redirect('/auth/renewPW');
+            }
+        }
     }
 
 

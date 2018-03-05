@@ -26,7 +26,6 @@ class MY_Controller extends CI_Controller
             $this->cache->save('topics', $topics, 300);
         }
         */
-        $this->load->view('topic_list', array('topics' => $topics));
     }
 
     function _footer()

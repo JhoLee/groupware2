@@ -1,4 +1,4 @@
-<div class="span2">
+<div class="span12">
     <ul class="nav nav-tabs nav-stacked">
         <?php
         foreach ($topics as $entry) {

@@ -42,7 +42,7 @@ class Topic extends MY_Controller
     function get($id)
     {
         $this->_head();
-
+        $this->_sidebar();
         $topic = $this->Topic_model->get($id);
         $this->load->helper(array('url', 'HTML', 'korean'));
         $this->load->view('get', array('topic' => $topic));
