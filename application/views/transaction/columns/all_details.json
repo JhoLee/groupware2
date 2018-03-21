@@ -1,0 +1,42 @@
+[
+  {
+    "name": "date",
+    "title": "날짜",
+    "type": "date",
+    "sorted": true,
+
+    "style": {}
+  },
+  {
+    "name": "name",
+    "title": "이름",
+    "type": "text",
+    "style": {}
+  },
+  {
+    "name": "type",
+    "title": "구분",
+    "breakpoints": "xs",
+    "type": "text",
+    "style": {}
+  },
+  {
+    "name": "rmks",
+    "title": "내용",
+    "breakpoints": "xs",
+    "type": "text",
+    "style": {}
+  },
+  {
+    "name": "ammount",
+    "title": "금액",
+    "type": "int",
+    "style": {}
+  },
+  {
+    "name": "balance",
+    "title": "잔액",
+    "type": "int",
+    "style": {}
+  }
+]

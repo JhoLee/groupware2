@@ -1,0 +1,4 @@
+$(function ($) {
+
+    $('.transaction-table').footable();
+});

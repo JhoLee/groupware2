@@ -24,7 +24,7 @@ class User_model extends CI_MODEL
         // 해당 Team의 user info를 all get.
         // pw는 제외.
         $sql = "SELECT m_id AS 'id', m_name AS 'name', t_team AS 'team', m_mobile AS 'mobile', m_mail AS 'e-mail', m_birthday AS 'birthday' FROM member WHERE t_team = '$team'";
-        return $this->db->query($sql)->result();
+        return $this->db->query($sql)->result_array();
         // TODO 해당 사용자가  '비공개'설정 가능하도록 만들자.
 
 
@@ -40,9 +40,6 @@ class User_model extends CI_MODEL
             case  'name':
                 $col = 'm_name';
                 break;
-            case 'team':
-                $col = 't_team';
-                break;
             case  'mobile':
                 $col = 'm_mobile';
                 break;
@@ -53,8 +50,13 @@ class User_model extends CI_MODEL
                 $col = '';
                 break;
         }
-        $sql = "SELECT m_id AS 'id', m_name AS 'name', t_team AS 'team', m_mobile AS 'mobile', m_mail AS 'e-mail', m_birthday AS 'birthday' FROM member WHERE $col = '$data'";
+        $sql = "SELECT m_id AS 'id', m_name AS 'name', t_team AS 'team', m_mobile AS 'mobile', m_mail AS 'e-mail', m_birthday AS 'birthday', m_permission AS 'permission' FROM member WHERE $col = '$data'";
         return $this->db->query($sql)->row();
+    }
+
+    function get($value, $column, $data)
+    {
+        // TODO: get $value from $column by $data
     }
 
     function getPassword($id)
@@ -67,6 +69,15 @@ class User_model extends CI_MODEL
     {
         $sql = "SELECT old_pw AS 'old_password' FROM member WHERE m_id = '$id'";
         return $this->db->query($sql)->row()->old_password;
+    }
+
+    function setPassword($id, $password)
+    {
+        $data = ['m_password' => $password];
+        $this->db->where('m_id', $id);
+        $result = $this->db->update('member', $data);
+
+        return $result;
     }
 
     // TODO: 수정, 삭제, 추가, 등등의 기능.... 수정은, 검색해서 가져온 다음에(*를 SElect 하는 함수 사용) 그걸 바탕으로 파라메터를 넣어서, 그 중 수정할 것들을 수정하는 방식으로 함수 작성.

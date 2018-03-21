@@ -1,0 +1,1 @@
+<img src="/application/res/img/staff_only.png" width="100%" height="100%">

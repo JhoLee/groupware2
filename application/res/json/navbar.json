@@ -1,0 +1,70 @@
+{
+  "transaction-admin": {
+    "main": [
+      {
+        "key": "personal",
+        "value": "개인"
+      },
+      {
+        "key": "all",
+        "value": "전체"
+      },
+      {
+        "key": "manage",
+        "value": "관리"
+      }
+    ],
+    "sub": {
+      "personal": [
+        {
+          "key": "summary",
+          "value": "개요"
+        },
+        {
+          "key": "details",
+          "value": "상세"
+        }
+      ],
+      "all": [
+        {
+          "key": "summary",
+          "value": "개요"
+        },
+        {
+          "key": "details",
+          "value": "상세"
+        }
+      ],
+      "manage": [
+        {
+          "key": "add",
+          "value": "추가"
+        },
+        {
+          "key": "test",
+          "value": "test"
+        }
+      ]
+    }
+  },
+  "transaction": {
+    "main": [
+      {
+        "key": "personal",
+        "value": "개인"
+      }
+    ],
+    "sub": {
+      "personal": [
+        {
+          "key": "summary",
+          "value": "개요"
+        },
+        {
+          "key": "details",
+          "value": "상세"
+        }
+      ]
+    }
+  }
+}
