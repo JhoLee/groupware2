@@ -7,10 +7,10 @@ class Auth extends MY_Controller
     function __construct()
     {
         parent::__construct();
-        $this->session->set_userdata('category', 'auth');
+        $this->_category = 'auth';
         $this->_head();
         $this->load->model('User_model');
-
+        $this->load->helper('form');
     }
 
     function index()
@@ -21,16 +21,11 @@ class Auth extends MY_Controller
 
     function login()
     {
-        if (empty($returnURL))
-            $returnURL = '/';
-        if ($this->session->userdata('is_login') == true) {
-            $this->session->set_userdata('message', 'Already Signed In.');
-
-            redirect($returnURL);
-        }
-
-        $returnURL = $this->input->get('returnURL');
-        $this->load->view('login', array('returnURL' => $returnURL));
+        if (empty($return_url))
+            $return_url = '/';
+        $this->_already_login($return_url);
+        $return_url = $this->input->get('return_url');
+        $this->load->view('auth/login', ['return_url' => $return_url, 'email' => safe_mailto('jooho_lee@outloo.kr', 'admin')]);
         $this->_footer();
     }
 
@@ -44,6 +39,14 @@ class Auth extends MY_Controller
     {
         // TODO 회원가입. 기존 방식과 틀은 같되, 암호화 방식에 차이가 생길 수도.
         // 기존 아이디 및 비밀번호로 로그인 시, 새로 비밀번호 설정 및 이메일 설정하게 하는 방법이 좋을듯.
+
+        if (empty($return_url))
+            $return_url = '/';
+        $this->_already_login($return_url);
+        $this->load->view('alert/construction');
+
+//        $this->load->view('auth/register', ['return_url' => $return_url]);
+
 
     }
 
@@ -61,23 +64,29 @@ class Auth extends MY_Controller
             if (password_verify($this->input->post('password'), $user->password)) {
                 /* If the pw is correct with new ver. */
                 $this->session->set_userdata('is_login', true);
-                $returnURL = $this->input->get('returnURL');
-                if ($returnURL === false) {
-                    $returnURL = '/';
+                $this->session->set_userdata('user_id', $user->id);
+                $this->session->set_userdata('user_team', $user->team);
+                $this->session->set_userdata('user_permission', $user->permission);
+                $return_url = $this->input->get('return_url');
+                if ($return_url === false) {
+                    $return_url = '/';
                 }
-                redirect($returnURL);
+                redirect($return_url);
             } else if (password_verify($this->input->post('password'), $user->old_password)) {
                 /* If the pw is correct with old ver. */
                 $this->session->set_userdata('old_pw', true);
-                $returnURL = $this->input->get('returnURL');
-                if ($returnURL === false) {
-                    $returnURL = '/';
+                $this->session->set_userdata('user_id', $user->id);
+                $this->session->set_userdata('user_team', $user->team);
+                $this->session->set_userdata('user_permission', $user->permission);
+                $return_url = $this->input->get('return_url');
+                if ($return_url === false) {
+                    $return_url = '/';
                 }
                 $this->session->set_flashdata('message', '비밀번호를 변경해야 합니다.');
                 $s_user = serialize($user);
                 $this->session->set_userdata('s_user', $s_user);
-                $this->session->set_userdata('returnURL', $returnURL);
-                redirect('/auth/renewPW');
+                $this->session->set_userdata('return_url', $return_url);
+                redirect('/auth/changePW');
 
 
             } else {
@@ -88,13 +97,80 @@ class Auth extends MY_Controller
         }
     }
 
-    function renewPW()
+    function changePW()
     {
-        $this->load->library('calendar');
+        $this->_require_login('/Transaction');
+
+        $this->load->library('form_validation');
+
+        if ($this->input->method() == 'post') {
+            $config = [
+                [
+                    'field' => 'origin_password',
+                    'label' => '기존 비밀번호',
+                    'rules' => ['required', 'min_length[6]', 'max_length[15]'],
+                    'errors' => ['required' => '기존 비밀번호를 입력해야 합니다.', 'min_length[6]' => '6자 이상 16자 미만으로 입력해야 합니다.', 'max_length[15]' => '6자 이상 16자 미만으로 입력해야 합니다.']
+                ],
+                [
+                    'field' => 'password1',
+                    'label' => '변경할 비밀번호',
+                    'rules' => ['required', 'min_length[6]', 'max_length[15]'],
+                    'errors' => ['required' => '변경할 비밀번호를 입력해야 합니다.', 'min_length[6]' => '6자 이상 16자 미만으로 입력해야 합니다.', 'max_length[15]' => '6자 이상 16자 미만으로 입력해야 합니다.']
+                ],
+                [
+                    'field' => 'password2',
+                    'label' => '재입력한 비밀번호',
+                    'rules' => ['required', 'min_length[6]', 'max_length[15]'],
+                    'errors' => ['required' => '변경할 비밀번호를 재입력해야 합니다.', 'min_length[6]' => '6자 이상 16자 미만으로 입력해야 합니다.', 'max_length[15]' => '6자 이상 16자 미만으로 입력해야 합니다.']
+                ]
+            ];
+            $this->form_validation->set_rules($config);
+
+            if ($this->form_validation->run() == true) {
+
+                $user = $this->User_model->getBy('id', $this->input->post('id'));
+                $user->password = $this->User_model->getPassword($user->id);
+                $user->old_password = $this->User_model->getOldPassword($user->id);
+                if (!function_exists('password_hash')) {
+                    $this->load->helper('password');
+                }
+
+                if (password_verify($this->input->post('origin_password'), $user->password) or password_verify($this->input->post('origin_password'), $user->old_password)) {
+
+                    if ($this->input->post('password1') == $this->input->post('password2')) {
+                        $id = $this->input->post('id');
+                        $hash = password_hash($this->input->post('password1'), PASSWORD_BCRYPT);
+                        $result = $this->User_model->setPassword($id, $hash);
+                        if ($result == '1') {
+                            $this->logout();
+                            $this->session->set_flashdata('message', '비밀번호 변경 성공!');
+                            redirect('/auth/login');
+                        } else {
+                            $this->session->set_flashdata('message', '알 수 없는 오류');
+                        }
+                    } else {
+                        /* passwords are not same */
+                        $this->session->set_flashdata('message', '변경할 비밀번호가 서로 맞지 않습니다.');
+                    }
+                } else {
+                    $this->session->set_flashdata('message', '기존 비밀번호가 맞지 않습니다.');
+                }
+                redirect('/auth/changePW');
+
+
+            }
+        }
+        $user = unserialize($this->session->userdata('s_user'));
+        $id = $this->session->userdata('user_id');
+        $return_url = unserialize($this->session->userdata('return_url'));
+        $this->load->view('auth/change_pw', ['user' => $user, 'return_url' => $return_url, 'id' => $id, 'email' => safe_mailto('jooho_lee@outlook.kr', 'admin')]);
+
+        /*
         if (empty($this->input->post('password'))) {
             $user = unserialize($this->session->userdata('s_user'));
-            $returnURL = unserialize($this->session->userdata('returnURL'));
-            $this->load->view('renewPW', array('user' => $user, 'returnURL' => $returnURL));
+            $id = $this->session->userdata('user_id');
+            $return_url = unserialize($this->session->userdata('return_url'));
+            $this->load->view('auth/change_pw', array('user' => $user, 'return_url' => $return_url, 'id' => $id, 'email' => safe_mailto('jooho_lee@outlook.kr', 'admin')));
         } else {
             // TODO: Varify two passwords, and then set or not.
             if (false) {
@@ -106,9 +182,42 @@ class Auth extends MY_Controller
             } else {
                 // TODO
                 // clear post data and refresh teh page
-                redirect('/auth/renewPW');
+                redirect('/auth/renew_pw');
             }
         }
+        */
+    }
+
+
+    function renewPW()
+    {
+        $this->load->library('form_validation');
+
+        $config = [
+            [
+                'field' => 'origin_password',
+                'label' => '기존 비밀번호',
+                'rules' => ['required', 'min_length[6]', 'max_length[15]'],
+                'errors' => ['required' => '기존 비밀번호를 입력해야 합니다.']
+            ],
+            [
+                'field' => 'password1',
+                'label' => '변경할 비밀번호',
+                'rules' => ['required', 'min_length[6]', 'max_length[15]'],
+                'errors' => ['required' => '변경할 비밀번호를 입력해야 합니다.']
+            ],
+            [
+                'field' => 'password2',
+                'label' => '재입력한 비밀번호',
+                'rules' => ['required', 'min_length[6]', 'max_length[15]'],
+                'errors' => ['required' => '변경할 비밀번호를 재입력해야 합니다.']
+            ]
+        ];
+        $this->form_validation->set_rules($config);
+
+        if ($this->form_validation->run() == false) {
+        }
+
     }
 
 

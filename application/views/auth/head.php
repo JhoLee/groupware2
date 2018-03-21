@@ -6,20 +6,21 @@
     <!--Bootstrap-->
     <link href="/application/res/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/application/res/css/login.css" rel="text/css">
+    <link href="/application/res/css/bootstrap-responsive.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #aaa;
             padding-top: 60px;
         }
 
-        .container {
-            padding-top: 100px;
-            max-width: 260px;
-        . center-block();
-        }
+        /*.container {*/
+        /*padding-top: 20px;*/
+        /*padding-bottom: 30px;*/
+        /*max-width: 360px;*/
+        /*. center-block();*/
+        /*}*/
     </style>
-    <link href="/application/res/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <title>Jho</title>
+    <title>~~~</title>
 </head>
 <body class="text-center">
 <div class="container">
