@@ -14,6 +14,7 @@
             <td class="success"><?= $rows["name"] ?></td>
             <td class="success"><?= kmoney($rows["balance"]) ?></td>
             <td class="success"><?= compute_date($rows["processed_date"]) ?></td>
+
         <?php } else if ($rows["balance"] > 12345) { ?>
             <td class="active"><?= $rows["name"] ?></td>
             <td class="active"><?= kmoney($rows["balance"]) ?></td>
@@ -42,7 +43,7 @@
             <td class="warning"><?= kmoney($teamData->balance) ?></td>
             <td class="warning"><?= compute_date($teamData->processed_date) ?></td>
         <?php } else { ?>
-            <td class="danger"><?= $teamData->name ?></td>
+            <td class="danger">계좌 잔액</td>
             <td class="danger"><?= kmoney($teamData->balance) ?></td>
             <td class="danger"><?= compute_date($teamData->processed_date) ?></td>
         <?php } ?>

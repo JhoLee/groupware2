@@ -8,6 +8,7 @@
         <th data-breakpoints="xs">구분</th>
         <th type="number" data-decimal-separator=".">금액</th>
         <th type="number">잔액</th>
+        <th type="date" data-breakpoints="xs sm">입력일</th>
     </tr>
     </thead>
     <tbody>
@@ -36,6 +37,7 @@
             <?php } else { ?>
                 <td class="danger"><?= kmoney($row->balance) ?></td>
             <?php } ?>
+            <td><?= compute_time($row->processed_date) ?></td>
         </tr>
     <?php } ?>
     </tbody>

@@ -9,6 +9,7 @@
         <th data-breakpoints="xs">내용</th>
         <th type="number" data-decimal-separator=".">금액</th>
         <th type="number">잔액</th>
+        <th type="date" data-breakpoints="xs sm">입력일</th>
     </tr>
     </thead>
     <tbody>
@@ -34,10 +35,11 @@
                 <td><?= $row->rmks ?></td>
                 <td><?= kmoney($row->ammount) ?></td>
                 <td><?= kmoney($row->balance) ?></td>
+                <td><?= compute_time($row->processed_date) ?></td>
             </tr>
         <?php } else if ($row->type < 0) { ?>
             <tr class="danger">
-                <td><?= simple_kdate( $row->date) ?></td>
+                <td><?= simple_kdate($row->date) ?></td>
                 <td><?= $row->name ?></td>
                 <td>
                     <?php
@@ -57,10 +59,11 @@
                 <td><?= $row->rmks ?></td>
                 <td><?= kmoney($row->ammount) ?></td>
                 <td><?= kmoney($row->balance) ?></td>
+                <td><?= compute_time($row->processed_date) ?></td>
             </tr>
         <?php } else { ?>
             <tr class="active">
-                <td><?= simple_kdate( $row->date) ?></td>
+                <td><?= simple_kdate($row->date) ?></td>
                 <td><?= $row->name ?></td>
                 <td>
                     <?php
@@ -80,6 +83,7 @@
                 <td><?= $row->rmks ?></td>
                 <td><?= kmoney($row->ammount) ?></td>
                 <td><?= kmoney($row->balance) ?></td>
+                <td><?= compute_time($row->processed_date) ?></td>
             </tr>
         <?php } ?>
     <?php } ?>

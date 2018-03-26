@@ -4,7 +4,7 @@
             <img class="mb-4" src="https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png" alt=""
                  width="72" height="72">
             <div class="panel-title">비밀번호 변경</div>
-            <div style="float:right; font-size: 80%; position: relative; top:-10px">ID: <?= $id ?>
+            <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="/">Home</a>
             </div>
         </div>
 

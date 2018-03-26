@@ -55,7 +55,7 @@
         });
     </script>
 
-    <title>Jho</title>
+    <title>모바일에 최적화되어 있습니다.</title>
 </head>
 <body>
 

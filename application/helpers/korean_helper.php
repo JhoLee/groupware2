@@ -33,22 +33,27 @@ if (!function_exists('compute_time')) {
         $timestamp = strtotime($datetime);
         $diff = time() - $timestamp;
 
-        $m = 60;
-        $h = $m * 60;
-        $d = $h * 24;
-        $w = $d * 7;
-        $y = $d * 365;
+        $minute = 60;
+        $hour = $minute * 60;
+        $day = $hour * 24;
+        $week = $day * 7;
+        $month = $day * 30;
+        $year = $day * 365;
 
-        if ($diff < $m) {
+        if ($diff < $minute) {
             $result = '방금';
-        } else if ($diff >= $m and $diff < $h) {
-            $result = round($diff / $m) . '분전';
-        } else if ($diff >= $h and $diff < $d) {
-            $result = round($diff / $h) . '시간전';
-        } else if ($diff >= $d and $diff < $w) {
-            $result = round($diff / $d) . '일전';
-        } else if ($diff >= $w and $diff < $y) {
-            $result = round($diff / $w) . '주전';
+        } else if ($diff >= $minute and $diff < $hour) {
+            $result = round($diff / $minute) . '분전';
+        } else if ($diff >= $hour and $diff < $day) {
+            $result = round($diff / $hour) . '시간전';
+        } else if ($diff >= $day and $diff < $day * 2) {
+            $result = '어제';
+        } else if ($diff >= $day and $diff < $week) {
+            $result = round($diff / $day) . '일전';
+        } else if ($diff >= $week and $diff < $month) {
+            $result = round($diff / $week) . '주전';
+        } else if ($diff >= $month and $diff < $year) {
+            $result = round($diff / $month) . '달전';
         } else {
             $result = kdate($datetime);
         }
@@ -65,22 +70,25 @@ if (!function_exists('compute_date')) {
         $timestamp = strtotime($datetime);
         $diff = time() - $timestamp;
 
-        $m = 60;
-        $h = $m * 60;
-        $d = $h * 24;
-        $w = $d * 7;
-        $y = $d * 365;
+        $minute = 60;
+        $hour = $minute * 60;
+        $day = $hour * 24;
+        $week = $day * 7;
+        $month = $day * 30;
+        $year = $day * 365;
 
-        if ($diff < $d) {
+        if ($diff < $day) {
             $result = '오늘';
-        } else if ($diff >= $d and $diff < $d * 2) {
+        } else if ($diff >= $day and $diff < $day * 2) {
             $result = '어제';
             //} else if ($diff >= ($d * 2) and $diff < ($d * 3)) {
             //$result = '2일전';
-        } else if ($diff >= ($d * 3) and $diff < $w) {
-            $result = round($diff / $d) . '일전';
-        } else if ($diff >= $w and $diff < $y) {
-            $result = round($diff / $w) . '주전';
+        } else if ($diff >= ($day * 2) and $diff < $week) {
+            $result = round($diff / $day) . '일전';
+        } else if ($diff >= $week and $diff < $month) {
+            $result = round($diff / $week) . '주전';
+        } else if ($diff >= $month and $diff < $year) {
+            $result = round($diff / $month) . '달전';
         } else {
             $result = kdate($datetime);
         }

@@ -146,7 +146,7 @@ class Transaction extends MY_Controller
         $_type = $this->session->flashdata('_message')['type'];
         $_message = $this->session->flashdata('_message')['message'];
 
-        if ($permission <= 2 and $section == "test") {
+        if ($permission <= 3 and $section == "test") {
             $section = "add";
         }
 
@@ -181,7 +181,7 @@ class Transaction extends MY_Controller
         $id = $this->session->userdata('user_id');
         $team = $this->session->userdata('user_team');
         $permission = $this->session->userdata('user_permission');
-        if ($permission >= 2 or true) {
+        if ($permission >= 2) {
             if ($this->input->post('name') != '0') {
                 $_name = $this->input->post('name');
                 $row = $this->User_model->getBy('name', $_name);
