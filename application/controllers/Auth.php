@@ -97,6 +97,9 @@ class Auth extends MY_Controller
         }
     }
 
+    /**
+     *
+     */
     function changePW()
     {
         $this->_require_login('/Transaction');
@@ -135,25 +138,32 @@ class Auth extends MY_Controller
                     $this->load->helper('password');
                 }
 
-                if (password_verify($this->input->post('origin_password'), $user->password) or password_verify($this->input->post('origin_password'), $user->old_password)) {
+                if (!password_verify($this->input->post('origin_password'), $user->password) and !password_verify($this->input->post('origin_password'), $user->old_password)) {
+                    $this->session->set_flashdata('message', '기존 비밀번호가 맞지 않습니다.');
+                } else {
+                    $team = $this->session->userdata('user_team');
 
-                    if ($this->input->post('password1') == $this->input->post('password2')) {
-                        $id = $this->input->post('id');
-                        $hash = password_hash($this->input->post('password1'), PASSWORD_BCRYPT);
-                        $result = $this->User_model->setPassword($id, $hash);
-                        if ($result == '1') {
-                            $this->logout();
-                            $this->session->set_flashdata('message', '비밀번호 변경 성공!');
-                            redirect('/auth/login');
-                        } else {
-                            $this->session->set_flashdata('message', '알 수 없는 오류');
-                        }
-                    } else {
+
+                    if ($this->input->post('password1') != $this->input->post('password2')) {
                         /* passwords are not same */
                         $this->session->set_flashdata('message', '변경할 비밀번호가 서로 맞지 않습니다.');
+                    } else {
+                        if ($team == 'Test') {
+                            $this->session->set_flashdata('message', '테스트 계정은 비밀번호 변경이 불가능합니다.');
+                        } else {
+                            $id = $this->input->post('id');
+                            $hash = password_hash($this->input->post('password1'), PASSWORD_BCRYPT);
+                            $result = $this->User_model->setPassword($id, $hash);
+                            if ($result != '1') {
+                                $this->session->set_flashdata('message', '알 수 없는 오류');
+                            } else {
+                                $this->logout();
+                                $this->session->set_flashdata('message', '비밀번호 변경 성공!');
+                                redirect('/auth/login');
+                            }
+                        }
                     }
-                } else {
-                    $this->session->set_flashdata('message', '기존 비밀번호가 맞지 않습니다.');
+
                 }
                 redirect('/auth/changePW');
 
