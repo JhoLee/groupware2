@@ -1,6 +1,5 @@
 <div id="paging-ui-all_details"></div>
-<table id="table-all_details" class="table transaction-table"
-       data-paging-container="#paging-ui-all_details" data-paging-current="999">
+<table id="table-all_details" class="table transaction-table">
     <thead>
     <tr>
         <th type="date">날짜</th>
@@ -89,3 +88,25 @@
     <?php } ?>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(function ($) {
+
+        $('#table-all_details').footable({
+            "editing": {
+                "enabled": true,
+                "showText": '<span class="fooicon fooicon-pencil" aria-hidden="true"></span> 수정'
+            },
+            "paging": {
+                "enabled": true,
+                "container": "#paging-ui-all_details",
+                "countFormat": "{CP} / {TP}",
+                "current": 999,
+                "limit": 4,
+                "size": 15
+            },
+            "sorting": {
+                "enabled": true
+            }
+        });
+    });
+</script>

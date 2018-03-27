@@ -1,6 +1,5 @@
-<div id="paging-ui-all_details"></div>
-<table id="table-all_details" class="table transaction-table"
-       data-paging-container="#paging-ui-all_details" data-paging-current="999" data-paging-size="6">
+<div id="paging-ui-personal_details"></div>
+<table id="table-personal_details" class="table transaction-table">
     <thead>
     <tr>
         <th type="date">날짜</th>
@@ -42,3 +41,20 @@
     <?php } ?>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(function ($) {
+
+        $('#table-personal_details').footable({
+            "paging": {
+                "enabled": true,
+                "container": "#paging-ui-personal_details",
+                "countFormat": "{CP} / {TP}",
+                "current": 999,
+                "size": 6
+            },
+            "sorting": {
+                "enabled": true
+            }
+        });
+    });
+</script>

@@ -1,6 +1,5 @@
 <div id="paging-ui-personal_summary"></div>
-<table id="table-personal_summary" class="table transaction-table"
-       data-paging-container="#paging-ui-personal_summary">
+<table id="table-personal_summary" class="table transaction-table">
     <thead>
     <tr>
         <th type="text">이름</th>
@@ -50,3 +49,19 @@
     </tr>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(function ($) {
+
+        $('#table-personal_summary').footable({
+            "paging": {
+                "enabled": true,
+                "container": "#paging-ui-personal_summary",
+                "countFormat": "{CP} / {TP}",
+                "size": 15
+            },
+            "sorting": {
+                "enabled": true
+            }
+        });
+    });
+</script>

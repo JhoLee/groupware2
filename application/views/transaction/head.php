@@ -39,21 +39,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/application/res/js/multi-switch.js" type="text/javascript"></script>
     <script src="/application/res/js/footable.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function ($) {
-
-            $('.transaction-table').footable({
-                "paging": {
-                    "enabled": true,
-                    "countFormat": "{CP} / {TP}",
-                    "size": 15
-                },
-                "sorting": {
-                    "enabled": true
-                }
-            });
-        });
-    </script>
+<!--    <script type="text/javascript">-->
+<!--        // TODO: 각자 자신의 페이지에서 해결해야 함... 18/03/26-->
+<!--        $(function ($) {-->
+<!---->
+<!--            $('.transaction-table').footable({-->
+<!--                "paging": {-->
+<!--                    "enabled": true,-->
+<!--                    "countFormat": "{CP} / {TP}",-->
+<!--                    "size": 15-->
+<!--                },-->
+<!--                "sorting": {-->
+<!--                    "enabled": true-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
 
     <title>모바일에 최적화되어 있습니다.</title>
 </head>

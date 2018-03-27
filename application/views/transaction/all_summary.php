@@ -50,3 +50,18 @@
     <?php } ?>
     </tbody>
 </table>
+    <script type="text/javascript">
+        $(function ($) {
+
+            $('#table-all_summary').footable({
+                "paging": {
+                    "enabled": true,
+                    "countFormat": "{CP} / {TP}",
+                    "size": 15
+                },
+                "sorting": {
+                    "enabled": true
+                }
+            });
+        });
+    </script>
