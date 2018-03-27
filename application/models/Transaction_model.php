@@ -173,7 +173,26 @@ class Transaction_model extends CI_Model
         }
     }
 
-    function get_last_updated_date($team)
+    /**
+     * @param $team
+     * @return ArrayObject of 'Dues deposit account information'
+     */
+    function getDepositMethod($team)
+    {
+        $this->db->select('di_owner AS \'예금주\'');
+        $this->db->select('di_bank AS \'은행\'');
+        $this->db->select('di_number AS \'계좌번호\'');
+        $this->db->where('t_team', $team);
+        $query = $this->db->get('dues_deposit_information');
+
+        return $query->result();
+    }
+
+    /**
+     * @param $team
+     * @return string
+     */
+    function getUpdatedDate($team)
     {
         $this->db->select_max('d_processed_date');
         $this->db->where('t_team', $team);

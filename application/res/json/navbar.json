@@ -41,6 +41,10 @@
           "value": "추가"
         },
         {
+          "key": "edit",
+          "value": "수정"
+        },
+        {
           "key": "test",
           "value": "test"
         }

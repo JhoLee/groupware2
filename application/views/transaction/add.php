@@ -1,5 +1,5 @@
 <div class="container contents">
-    <form method="POST" action="/jho.php/Transaction/insert" id="insertion_form" class="form-horizontal">
+    <form method="POST" action="/index.php/Transaction/insert" id="insertion_form" class="form-horizontal">
 
         <!--
         <div class="form-group">
@@ -47,7 +47,7 @@
         <!--amount-->
         <div class="form-group">
             <label for="ammount_input">금액</label>
-            <input name="ammount" id="ammount_input" class="form-control" placeholder="20000"
+            <input name="ammount" id="ammount_input" class="form-control" placeholder="20000 / -20000"
                    value=""
                    type="text">
         </div><!--amount-->

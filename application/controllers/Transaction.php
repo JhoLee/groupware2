@@ -65,8 +65,10 @@ class Transaction extends MY_Controller
         $team = $this->session->userdata('user_team');
         $permission = $this->session->userdata('user_permission');
 
+        $account_info = $this->Transaction_model->getDepositMethod($team);
+
         $this->_head();
-        $this->load->view('alert/message', ['type' => 'info', 'message' => $this->_updated_date($team)]);
+        $this->load->view('alert/message', ['type' => 'info', 'message' => $this->_updatedDate($team)]);
         $this->_navbar($category, $section, $permission);
 
         if ($category == "personal") {
@@ -75,6 +77,7 @@ class Transaction extends MY_Controller
             } else {
                 $rows = $this->Transaction_model->getPersonalDetails($id);
             }
+
         } else if ($category == "all") {
             if ($permission >= 2) {
                 if ($section == "summary") {
@@ -91,6 +94,8 @@ class Transaction extends MY_Controller
 
         $this->load->view($this->_category . '/' . $category . '_' . $section, ['rows' => $rows, 'teamData' => $teamData]);
 
+
+        $this->load->view('transaction/deposit_account', ['rows' => $account_info]);
 
         $this->_footer([]);
 
@@ -151,30 +156,35 @@ class Transaction extends MY_Controller
         }
 
         $this->_head();
-        $this->load->view('alert/message', ['type' => 'info', 'message' => $this->_updated_date($team)]);
+        $this->load->view('alert/message', ['type' => 'info', 'message' => $this->_updatedDate($team)]);
         $this->_navbar($category, $section, $permission);
         $this->load->view('alert/message', ['type' => $_type, 'message' => $_message]);
 
 
-        $message = $this->session->flashdata('message2');
-        $members = $this->User_model->gets($team);
-        $_date = $this->session->flashdata('_date');
-        $_rmks = $this->session->flashdata('_rmks');
-
-        $id_array = [];
-        foreach ($members as $row) {
-            $id_array[$row['id']] = $row['name'];
-        }
-
-
+//        $message = $this->session->flashdata('message2');
+//        $members = $this->User_model->gets($team);
+//        $_date = $this->session->flashdata('_date');
+//        $_rmks = $this->session->flashdata('_rmks');
+//
+//        $id_array = [];
+//        foreach ($members as $row) {
+//            $id_array[$row['id']] = $row['name'];
+//        }
+//
+//
         if ($permission >= 2) {
-            $rows = $this->Transaction_model->getAllDetails($team);
-            $this->load->view('transaction/' . $section, ['rows' => $rows, 'id_array' => $id_array, 'message' => $message, '_date' => $_date, '_rmks' => $_rmks]);
+//            $rows = $this->Transaction_model->getAllDetails($team);
+//            $this->load->view('transaction/' . $section, ['rows' => $rows, 'id_array' => $id_array, 'message' => $message, '_date' => $_date, '_rmks' => $_rmks]);
+            if ($section === 'add')
+                $this->_add($team);
+            if ($section === 'test')
+                $this->_testing($team);
         } else {
             redirect('transaction');
         }
         $this->_footer([]);
     }
+
 
     function insert()
     {
@@ -219,11 +229,41 @@ class Transaction extends MY_Controller
         parent::_footer([]);
     }
 
-    function _updated_date($team)
+    function _updatedDate($team)
     {
-        $last_modified_date = $this->Transaction_model->get_last_updated_date($team);
+        $last_modified_date = $this->Transaction_model->getUpdatedDate($team);
 
         return "업데이트: " . $last_modified_date;
+
+    }
+
+    function _add($team)
+    {
+        $message = $this->session->flashdata('message2');
+        $members = $this->User_model->gets($team);
+        $_date = $this->session->flashdata('_date');
+        $_rmks = $this->session->flashdata('_rmks');
+
+        $id_array = [];
+        foreach ($members as $row) {
+            $id_array[$row['id']] = $row['name'];
+        }
+
+
+        $rows = $this->Transaction_model->getAllDetails($team);
+        $this->load->view('transaction/' . 'add', ['rows' => $rows, 'id_array' => $id_array, 'message' => $message, '_date' => $_date, '_rmks' => $_rmks]);
+
+    }
+
+    function _testing($team)
+    {
+        $rows = $this->Transaction_model->getDepositMethod($team);
+        $this->load->view('transaction/deposit_account', ['rows' => $rows]);
+    }
+
+    function _depositInformation($team)
+    {
+        $rows = $this->Transaction_model->getDepositMethod($team);
 
     }
 }
