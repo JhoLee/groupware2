@@ -89,12 +89,13 @@ class Auth extends MY_Controller
                 redirect('/auth/changePW');
 
 
-            } else {
-                /* */
-                $this->session->set_flashdata('message', '로그인에 실패 했습니다.');
-                redirect('/auth/login');
             }
         }
+        /* */
+        $this->session->set_flashdata('message', '로그인에 실패 했습니다.');
+        redirect('/auth/login');
+
+
     }
 
     /**

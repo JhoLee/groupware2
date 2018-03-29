@@ -17,15 +17,14 @@ class Transaction_model extends CI_Model
 
     function getAllSummary($team)
     {
-        $sql = "SELECT 
-                m_id AS 'name', 
-                SUM(d_category * d_ammount) AS 'balance', 
-                MAX(d_date) AS 'processed_date' 
-                FROM `deposit_history` 
-                WHERE `t_team` = '$team' 
-                GROUP BY m_id
-            ";
-        $rows = $this->db->query($sql)->result();
+        $this->db->select('m_id As name', false);
+        $this->db->select_sum('(d_category * d_ammount)', 'balance');
+        $this->db->select_max('d_date', 'processed_date');
+        $this->db->where('t_team', $team);
+        $this->db->group_by('m_id');
+        $query = $this->db->get('deposit_history');
+        $rows = $query->result();
+
         return $rows;
     }
 
@@ -60,76 +59,68 @@ class Transaction_model extends CI_Model
             ORDER BY ql.date, ql.`processed_date` ASC;
             ";
         $rows = $this->db->query($sql)->result();
-        //$data = array();
-        //$data["rows"] = $rows;
-
-        // return $data;
         return $rows;
     }
 
     function getPersonalSummary($id)
     {
-        // TODO: CI 방식의 SQL문으로 수정할 것.
         $this->load->model('User_model');
 
-        $sql = "SELECT m_id AS 'id',  SUM(d_category * d_ammount) AS 'balance', MAX(d_date) AS 'processed_date'
-                    FROM deposit_history WHERE  m_id='$id'";
-        $row = $this->db->query($sql)->row_array();
-        $row["name"] = $this->User_model->getBy("id", $id)->name;
-        return $row;
+
+        $this->db->select('m_id AS id', false);
+        $this->db->select_sum('(d_category * d_ammount)', 'balance');
+        $this->db->select_max('d_date', 'processed_date');
+        $this->db->where('m_id', $id);
+        $query = $this->db->get('deposit_history');
+        $rows = $query->result();
+        $rows[0]->name = $this->User_model->getBy("id", $id)->name;
+
+        return $rows[0];
     }
 
     function getPersonalDetails($id)
     {
 
         $this->db->query('SET @balance := 0;');
-        $sql = "
-            SELECT
-              ql.d_id,
-              ql.rmks AS 'rmks',
-              ql.type AS 'type',
-              ql.ammount * ql.type AS 'ammount',
-              ql.date AS 'date',
-              ql.processed_date AS 'processed_date',
-            
-              (@balance := @balance + (ql.type * ql.ammount)) AS 'balance'
-            
-            FROM
-              (SELECT
-                 d_id,
-                 d_category       AS type,
-                 d_ammount        AS ammount,
-                 d_rmks           AS rmks,
-                 d_date           AS date,
-                 d_processed_date AS processed_date
-               FROM deposit_history
-               WHERE m_id = '$id'
-               GROUP BY d_id, d_date
-               ORDER BY d_date, d_id) AS ql
-            ORDER BY ql.date, ql.d_id ASC;
-            ";
+        $this->db->where('m_id', $id);
+        $this->db->group_by(['d_id', 'd_date']);
+        $sql = $this->db->get_compiled_select('deposit_history');
+        $sql = "(" . $sql . ") AS ql";
+
+        $this->db->select('ql.d_id AS id', false);
+        $this->db->select('ql.d_rmks AS rmks', false);
+        $this->db->select('ql.d_category AS type', false);
+        $this->db->select('(ql.d_ammount * ql.d_category) AS ammount', false);
+        $this->db->select('ql.d_date AS date', false);
+        $this->db->select('ql.d_processed_date AS processed_date', false);
+        $this->db->select("(@balance := @balance + (ql.d_category * ql.d_ammount)) AS balance", false);
+        $this->db->order_by('ql.d_date', 'ASC');
+        $this->db->order_by('ql.d_id', 'ASC');
+        $sql = $this->db->get_compiled_select($sql);
+
         $rows = $this->db->query($sql)->result();
         return $rows;
     }
 
     function getTeamBalance($team)
     {
-        $sql = "SELECT
-              SUM(ql.balance) AS 'balance',
-              MAX(ql.processed_date) AS 'processed_date'
-            FROM
-            (SELECT 
-                SUM(d_category * d_ammount) AS 'balance', 
-                MAX(d_date) AS 'processed_date' 
-                FROM `deposit_history` 
-                WHERE `t_team` = '$team') AS ql";
+        $this->db->select_sum('(d_category * d_ammount)', 'balance');
+        $this->db->select_max('d_date', 'processed_date');
+        $this->db->where('t_team', $team);
+        $sql = $this->db->get_compiled_select('deposit_history');
+
+        $this->db->select_sum('(ql.balance)', 'balance');
+        $this->db->select_max('(ql.processed_date)', 'processed_date');
+        $sql = $this->db->get_compiled_select("($sql)");
+        $sql = $sql . " AS ql";
+
         $row = $this->db->query($sql)->row();
         return $row;
     }
 
     function addHistory($id, $ammount, $date, $rmks, $team, $writer)
     {
-        //TODO: validation and insertion.
+        //TODO: validation
         if (!empty($id) and isset($ammount) and !empty($date) and !empty ($rmks) and !empty($team) and !empty($writer)) {
 
 
@@ -149,11 +140,6 @@ class Transaction_model extends CI_Model
 
 
             $now_date = date("Y-m-d H:i:s");
-
-            /*
-            $data = ['m_id' => $id, 't_team' => $team, 'd_category' => $type, 'd_rmks' => $rmks, 'd_ammount' => $ammount, 'd_date' => $date, 'd_processed_date' => time(), 'd_writer' => $writer];
-            $result = $this->db->insert('deposit_history', $data);
-            */
 
             $this->db->set('m_id', $id);
             $this->db->set('t_team', $team);
@@ -179,13 +165,52 @@ class Transaction_model extends CI_Model
      */
     function getDepositMethod($team)
     {
-        $this->db->select('di_owner AS \'예금주\'');
-        $this->db->select('di_bank AS \'은행\'');
-        $this->db->select('di_number AS \'계좌번호\'');
+
+        $this->db->select('di_id AS id');
+        $this->db->select('di_owner AS 예금주');
+        $this->db->select('di_bank AS 은행');
+        $this->db->select('di_number AS 계좌번호');
         $this->db->where('t_team', $team);
         $query = $this->db->get('dues_deposit_information');
+        $rows = $query->result();
 
-        return $query->result();
+
+        return $rows;
+    }
+
+    function addDepositMethod($team, $data)
+    {
+        $this->db->set($data);
+        $this->db->set('t_team', $team);
+        $result = $this->db->insert('dues_deposit_information');
+
+        return $result;
+    }
+
+    function updateDepositMethod($team, $data)
+    {
+        $this->db->set($data);
+        $this->db->set('t_team', $team);
+        $this->db->where('di_id', $data['di_id']);
+        $result = $this->db->update('dues_deposit_information');
+
+        return $result;
+    }
+
+    function deleteDepositMethod($team, $id)
+    {
+        $result = $this->db->delete('dues_deposit_information', ['di_id' => $id, 't_team' => $team]);
+
+        return $result;
+    }
+
+
+    function getDepositRowCount()
+    {
+        $this->db->select_max('di_id', 'id');
+        $row = $this->db->get('dues_deposit_information')->row();
+        $count = $row->id;
+        return $count;
     }
 
     /**
@@ -210,11 +235,11 @@ class Transaction_model extends CI_Model
         return $args;
     }
 
-    function sqlToJson($team)
-    {
-        $result = $this->getAllDetails($team);
-        $json = json_encode($result, JSON_UNESCAPED_UNICODE);
-        return $json;
-    }
+//    function sqlToJson($team)
+//    {
+//        $result = $this->getAllDetails($team);
+//        $json = json_encode($result, JSON_UNESCAPED_UNICODE);
+//        return $json;
+//    }
 
 }

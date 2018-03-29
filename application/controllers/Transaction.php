@@ -95,7 +95,7 @@ class Transaction extends MY_Controller
         $this->load->view($this->_category . '/' . $category . '_' . $section, ['rows' => $rows, 'teamData' => $teamData]);
 
 
-        $this->load->view('transaction/deposit_account', ['rows' => $account_info]);
+        $this->load->view('transaction/deposit_method', ['rows' => $account_info, 'permission' => $permission]);
 
         $this->_footer([]);
 
@@ -258,12 +258,66 @@ class Transaction extends MY_Controller
     function _testing($team)
     {
         $rows = $this->Transaction_model->getDepositMethod($team);
-        $this->load->view('transaction/deposit_account', ['rows' => $rows]);
+        $this->load->view('transaction/deposit_method', ['rows' => $rows]);
     }
 
     function _depositInformation($team)
     {
         $rows = $this->Transaction_model->getDepositMethod($team);
 
+    }
+
+    function depositInfoToJson()
+    {
+        $this->_require_login('/');
+        $team = $this->session->userdata('user_team');
+        $rows = $this->Transaction_model->getDepositMethod($team);
+        $rows_json = json_encode($rows, JSON_UNESCAPED_UNICODE);
+
+        echo $rows_json;
+
+    }
+
+    function configDepositInfo()
+    {
+        $team = $this->session->userdata('user_team');
+
+        if ($this->input->post('type') == 'delete') {
+            $id = $this->input->post('id');
+            $result = $this->Transaction_model->deleteDepositmethod($team, $id);
+
+        } else {
+
+            $row = [];
+            $row['di_id'] = $this->input->post('id');
+            $row['di_owner'] = $this->input->post('owner');
+            $row['di_bank'] = $this->input->post('bank');
+            $row['di_number'] = $this->input->post('number');
+
+
+            if (empty($row['di_id'])) {
+                $row['di_id'] = (int)$this->Transaction_model->getDepositRowCount() + 1;
+                foreach ($row as $value) {
+                    if (empty($value)) {
+                        echo 'false';
+                        return -1;
+                    }
+                }
+                echo "add..";
+                $result = $this->Transaction_model->addDepositMethod($team, $row);
+            } else {
+                foreach ($row as $value) {
+                    if (empty($value)) {
+                        echo 'false';
+                        return -1;
+                    }
+                }
+                echo "update..";
+                $result = $this->Transaction_model->updateDepositMethod($team, $row);
+            }
+        }
+        echo $result;
+
+        return 0;
     }
 }

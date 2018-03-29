@@ -21,7 +21,7 @@
             <td class="warning"><?= kmoney($teamData->balance) ?></td>
             <td class="warning"><?= compute_date($teamData->processed_date) ?></td>
         <?php } else { ?>
-            <td class="danger"><?= $teamData->name ?></td>
+            <td class="danger">계좌 잔액</td>
             <td class="danger"><?= kmoney($teamData->balance) ?></td>
             <td class="danger"><?= compute_date($teamData->processed_date) ?></td>
         <?php } ?>
@@ -50,18 +50,18 @@
     <?php } ?>
     </tbody>
 </table>
-    <script type="text/javascript">
-        $(function ($) {
+<script type="text/javascript">
+    $(function ($) {
 
-            $('#table-all_summary').footable({
-                "paging": {
-                    "enabled": true,
-                    "countFormat": "{CP} / {TP}",
-                    "size": 15
-                },
-                "sorting": {
-                    "enabled": true
-                }
-            });
+        $('#table-all_summary').footable({
+            "paging": {
+                "enabled": true,
+                "countFormat": "{CP} / {TP}",
+                "size": 15
+            },
+            "sorting": {
+                "enabled": true
+            }
         });
-    </script>
+    });
+</script>
